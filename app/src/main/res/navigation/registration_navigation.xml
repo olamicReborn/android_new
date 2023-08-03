@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/registerFragment">
+
+    <!-- RegisterFragment -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.maggnet.ui.register.fragment.phoneNumberverification.PhoneNumberVerificationFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_phone_number_verification">
+        <action
+            android:id="@+id/action_registerFragment_to_VerificationFragment"
+            app:destination="@id/verificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+        <action android:id="@+id/action_verificationFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+
+        <action
+            android:id="@+id/move_to_home_activity"
+            app:destination="@+id/home_activity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+    </fragment>
+
+
+
+
+    <!-- VerificationFragment -->
+    <fragment
+        android:id="@+id/verificationFragment"
+        android:name="com.maggnet.ui.register.fragment.verification.OtpVerificationFragment"
+        android:label="fragment_verification"
+        tools:layout="@layout/fragment_otp_verification">
+
+        <action
+            android:id="@+id/action_verificationFragment_to_PasswordFragment"
+            app:destination="@id/passwordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/move_to_home_activity"
+            app:destination="@+id/home_activity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+    <!-- LoginFragment -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.maggnet.ui.login.fragment.loginUser.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_loginFragment_to_RegisterFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_ForgotFragment"
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/move_to_home_activity"
+            app:destination="@+id/home_activity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+    <!-- PasswordFragment -->
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.maggnet.ui.register.fragment.password.PasswordFragment"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password">
+
+        <action
+            android:id="@+id/action_passwordFragment_to_ReferralFragment"
+            app:destination="@id/referralFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+    </fragment>
+
+    <!-- ForgotPasswordFragment -->
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.maggnet.ui.login.fragment.forgot.ForgotPasswordFragment"
+        android:label="fragment_forgot"
+        tools:layout="@layout/fragment_forgot">
+
+        <action
+            android:id="@+id/action_forgotFragment_to_LoginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <!-- ReferralFragment -->
+    <fragment
+        android:id="@+id/referralFragment"
+        android:name="com.maggnet.ui.register.fragment.referral.ReferralFragment"
+        android:label="fragment_referral"
+        tools:layout="@layout/fragment_referral">
+
+        <action
+            android:id="@+id/move_to_home_activity"
+            app:destination="@+id/home_activity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+
+    <activity
+        android:id="@+id/home_activity"
+        android:name="com.maggnet.ui.home.activity.HomeActivity"
+        tools:layout="@layout/activity_home" />
+
+</navigation>

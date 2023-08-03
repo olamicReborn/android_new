@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sub_settings"
+    app:startDestination="@id/helpSettingFragment">
+
+    <fragment
+        android:id="@+id/helpSettingFragment"
+        android:name="com.maggnet.ui.settings.fragment.help.HelpSettingsFragment"
+        android:label="HelpSettingFragment">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/legalSettingFragment"
+        android:name="com.maggnet.ui.settings.fragment.legals.LegalsSettingsFragment"
+        android:label="LegalSettingFragment">
+
+
+        <action
+            android:id="@+id/move_to_web_view"
+            app:destination="@id/move_to_web_view_screen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/move_to_web_view_screen"
+        android:name="com.maggnet.ui.settings.fragment.webview.WebViewFragment"
+        android:label="WebViewScreenFragment"
+        tools:layout="@layout/fragment_web_view" >
+        <action
+            android:id="@+id/action_move_to_web_view_screen_self"
+            app:destination="@id/move_to_web_view_screen" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/inviteEarnFragment"
+        android:name="com.maggnet.ui.settings.fragment.invite.InviteEarnFragment"
+        android:label="InviteEarnFragment">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/myWishListFragment"
+        android:name="com.maggnet.ui.settings.fragment.mywishlist.MyWishListFragment"
+        android:label="MyWishListFragment">
+
+        <action
+            android:id="@+id/action_move_to_shop_detail_fragment"
+            app:destination="@id/shopDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.maggnet.ui.settings.fragment.account.AccountSettingsFragment"
+        android:label="AccountSettingsFragment">
+
+        <action
+            android:id="@+id/move_to_change_password"
+            app:destination="@id/move_to_change_password_screen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/move_to_add_email"
+            app:destination="@id/move_to_add_email_screen"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/move_to_change_password_screen"
+        android:name="com.maggnet.ui.settings.fragment.changepassword.ChangePasswordFragment"
+        android:label="ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/move_to_add_email_screen"
+        android:name="com.maggnet.ui.register.fragment.password.PasswordFragment"
+        android:label="AddEmailFragment"
+        tools:layout="@layout/fragment_password" />
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.maggnet.ui.settings.fragment.history.HistoryFragment"
+        android:label="HistoryFragment"
+        tools:layout="@layout/fragment_history">
+
+        <action
+            android:id="@+id/move_to_view_all"
+            app:destination="@id/viewAllFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_move_to_shop_detail_fragment"
+            app:destination="@id/shopDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/userprofileFragment"
+        android:name="com.maggnet.ui.settings.fragment.userprofile.UserProfileFragment"
+        android:label="UserProfileFragment"
+        tools:layout="@layout/fragment_user_profile" />
+
+    <fragment
+        android:id="@+id/viewAllFragment"
+        android:name="com.maggnet.ui.home.fragment.viewall.ViewAllFragment"
+        android:label="fragment_viewAll"
+        tools:layout="@layout/fragment_view_all"/>
+
+    <fragment
+        android:id="@+id/shopDetailFragment"
+        android:name="com.maggnet.ui.home.fragment.shopdetails.ShopDetailFragment"
+        android:label="fragment_shop_detail"
+        tools:layout="@layout/fragment_shop_detail">
+
+        <action
+            android:id="@+id/move_to_myWishlist"
+            app:destination="@id/myWishListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/move_to_notification_list"
+            app:destination="@id/notificationsListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/notificationsListFragment"
+        android:name="com.maggnet.ui.home.fragment.notifications.NotificationsFragment"
+        android:label="NotificationsListFragment">
+
+        <action
+            android:id="@+id/action_move_to_shop_detail_fragment"
+            app:destination="@id/shopDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+
+</navigation>

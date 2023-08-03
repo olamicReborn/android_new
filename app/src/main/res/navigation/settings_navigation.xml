@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings"
+    app:startDestination="@+id/user_settings_fragment">
+
+    <fragment
+        android:id="@+id/user_settings_fragment"
+        tools:layout="@layout/fragment_user_settings"
+        android:name="com.maggnet.ui.home.fragment.basesettings.UserSettingsFragment">
+
+        <action
+            android:id="@+id/move_to_base_settings"
+            app:destination="@id/base_settings_activity" />
+
+
+        <action
+            android:id="@+id/move_to_welcome_activity"
+            app:destination="@+id/welcome_activity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <activity
+        android:id="@+id/base_settings_activity"
+        tools:layout="@layout/activity_base_settings"
+        android:name="com.maggnet.ui.settings.activity.BaseSettingsActivity" >
+
+    </activity>
+
+
+    <activity
+        android:id="@+id/welcome_activity"
+        android:name="com.maggnet.ui.welcome.activity.WelcomeActivity"
+        tools:layout="@layout/activity_welcome" />
+
+</navigation>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="otpVerificationEditText" parent="TextFontAppearance">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:inputType">phone</item>
+        <item name="android:focusable">true</item>
+        <item name="android:itemBackground">@drawable/otp_background</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="TextFontAppearance" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/avenir_lt_std_55_roman</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+
+    <style name="BottomNavigationStyleUnSelected">
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:fontFamily">@font/avenir_lt_std_55_roman</item>
+        <item name="android:state_checked">false</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="BottomNavigationStyleSelected">
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:fontFamily">@font/avenir_lt_std_95_black</item>
+        <item name="android:state_checked">true</item>
+        <item name="android:textColor">@color/blue</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@drawable/alert_dialog_bg</item>
+    </style>
+
+    <style name="MainScreenToolbarTheme" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/avenir_lt_std_95_black</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/dark_grey</item>0
+        <item name="android:textDirection">locale</item>
+        <item name="android:text">@string/app_name</item>
+    </style>
+
+    <style name="SettingRecyclerView">
+        <item name="android:layout_margin">@dimen/_10sdp</item>
+        <item name="android:background">@drawable/bg_curved</item>
+        <item name="android:clipToPadding">true</item>
+    </style>
+
+    <style name="SettingBoldTextStyle" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/avenir_lt_std_95_black</item>
+        <item name="android:textDirection">locale</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/dimen_16_dp</item>
+    </style>
+
+    <style name="SettingsViewSmallDividerStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/divider_height</item>
+        <item name="android:background">@color/tab_color</item>
+    </style>
+
+    <style name="ConstraintContainerStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_curved</item>
+    </style>
+
+    <style name="SettingsSummaryTextView" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/avenir_lt_std_55_roman</item>
+        <item name="android:textDirection">locale</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:paddingStart">@dimen/dimen_10_dp</item>
+        <item name="android:paddingEnd">@dimen/dimen_14_dp</item>
+        <item name="android:paddingBottom">@dimen/dimen_6_dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">@dimen/dimen_0_dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="SettingsTextView" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/readexpro_regular</item>
+        <item name="android:textDirection">locale</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:paddingStart">@dimen/dimen_10_dp</item>
+        <item name="android:paddingEnd">@dimen/standard_margin</item>
+        <item name="android:paddingTop">@dimen/_6sdp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">@dimen/dimen_0_dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/avenir_lt_std_95_black</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textDirection">locale</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="TextFontAppearanceBold" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/readexpro_bold</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+
+    <style name="TextFontAppearanceMedium" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/readexpro_regular</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+
+    <style name="TextFontAppearanceLight" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:fontFamily">@font/readexpro_light</item>
+        <item name="android:textDirection">locale</item>
+    </style>
+
+    <style name="defaultButton" parent="ThemeOverlay.AppCompat.DayNight">
+        <item name="android:background">@drawable/background_button</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textDirection">locale</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_size_15sp</item>
+        <item name="android:fontFamily">@font/readexpro_bold</item>
+    </style>
+
+
+    <style name="CustomDialogTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="DialogThemeTransparent" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="TransparentBackgroundBottomSheetTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparentBackgroundBottomSheetStyle</item>
+    </style>
+
+    <style name="TransparentBackgroundBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="FilterDialog" parent="Theme.AppCompat.DayNight.Dialog">
+<!--        <item name="android:backgroundDimEnabled">false</item>-->
+<!--        <item name="android:windowNoTitle">true</item>-->
+<!--        <item name="android:padding">0dp</item>-->
+<!--        <item name="android:windowIsFloating">false</item>-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+<!--        <item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:statusBarColor">@color/tab_color</item>
+        <item name="android:navigationBarColor">@color/tab_color</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+    <style name="MediaViewerTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/black87</item>
+        <item name="colorAccent">@color/dark_grey</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowLightStatusBar"></item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/black87</item>
+        <item name="android:navigationBarColor">@color/black87</item>
+    </style>
+
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/dark_grey</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:windowBackground">@drawable/magnatis_background</item>
+        <item name="android:navigationBarColor">@color/blue</item>
+    </style>
+
+
+
+</resources>

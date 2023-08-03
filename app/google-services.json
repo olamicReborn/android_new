@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "137058529770",
+    "project_id": "maggnet-639a9",
+    "storage_bucket": "maggnet-639a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137058529770:android:1441fb2678896931114293",
+        "android_client_info": {
+          "package_name": "com.maggnet.deviceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137058529770-368kfd7rk4tsfdbjq64i3hasde0s2qve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuA12zSBrwITQ74adqI0B6jNcHNLz_cdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137058529770-368kfd7rk4tsfdbjq64i3hasde0s2qve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
