@@ -3,6 +3,7 @@ package com.maggnet.ui.welcome.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -12,8 +13,12 @@ import com.maggnet.R
 import com.maggnet.data.coupons.model.CouponsListImeiResponse
 import com.maggnet.databinding.ActivitySelectCouponBinding
 import com.maggnet.ui.base.BaseActivity
+import com.maggnet.ui.login.fragment.Otp.DeleteUserViewModel
+import com.maggnet.ui.login.fragment.Otp.SendOtpViewModel
+import com.maggnet.ui.login.fragment.forgot.ForgotPasswordNavigator
 import com.maggnet.ui.redeem.discount.DiscountDetailsFragmentViewModel
 import com.maggnet.ui.redeem.discount.DiscountDetailsNavigator
+import com.maggnet.ui.register.fragment.verification.OtpVerificationNavigator
 import com.maggnet.ui.welcome.activity.coupon.CouponListAdapter
 import com.maggnet.ui.welcome.activity.coupon.CouponListNavigator
 import com.maggnet.ui.welcome.activity.coupon.CouponViewModel
@@ -27,7 +32,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectCouponBinding::inflate),
-    View.OnClickListener,CouponListAdapter.CouponListener,CouponListNavigator,
+    View.OnClickListener,CouponListAdapter.CouponListener,CouponListNavigator,ForgotPasswordNavigator,
     DiscountDetailsNavigator {
 
     private var couponListAdapter:CouponListAdapter? = null
@@ -35,6 +40,8 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
     private val couponViewModel: CouponViewModel by viewModels()
     private var couponsList = java.util.ArrayList<CouponsListImeiResponse.CouponListData>()
     val discountDetailsFragmentViewModel: DiscountDetailsFragmentViewModel by viewModels()
+    private val sendOtpViewModel: SendOtpViewModel by viewModels()
+    private val deleteUserViewModel: DeleteUserViewModel by viewModels()
 
     lateinit var linearLayoutManager: LinearLayoutManager
 
@@ -47,6 +54,11 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
     var coupon_name: String=""
     var invoice_no: String=""
 
+    var phone_no:String=""
+    var tamount:String=""
+    var country_code:String=""
+    var itemId="0"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,8 +68,11 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
     override fun initUserInterface() {
         couponViewModel.setNavigator(this)
         discountDetailsFragmentViewModel.setNavigator(this)
+        sendOtpViewModel.setNavigator(this)
+        deleteUserViewModel.setNavigator(this@CouponActivity)
 
-        couponViewModel.callCouponListApi("864445040446587",intent.getStringExtra("userid").toString())
+
+        couponViewModel.callCouponListApi(preferenceManager.getIMEINumber().toString(),preferenceManager.getUserId().toString(),this)
         couponListAdapter = CouponListAdapter(this,this@CouponActivity)
         viewDataBinding.couponList.apply {
             linearLayoutManager = LinearLayoutManager(this@CouponActivity, LinearLayoutManager.VERTICAL, false)
@@ -66,12 +81,19 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
 
         }
 
+        phone_no=preferenceManager.getMobileNumberForRegistration()
+        tamount=preferenceManager.getUserAmount()
+        country_code=preferenceManager.getUserCountryCode()
 
         viewDataBinding.apply {
-            name.text=preferenceManager.getUserName()
+            if(!preferenceManager.getUserName().equals("")){
+                name.text=preferenceManager.getUserName()
+            }else{
+                name.visibility= GONE
+            }
             btnNext.setOnClickListener(this@CouponActivity)
             backArrow.setOnClickListener(this@CouponActivity)
-            amount.text=intent.getStringExtra("amount").toString()+"JOD"
+            amount.text=tamount+"JOD"
 
         }
     }
@@ -81,20 +103,27 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
         v?.let {
             when (it.id) {
                 R.id.btnNext ->{
-                    if (grandtotal==0.0){
-                        invoice_no= UUID.randomUUID().toString()
+                    invoice_no= UUID.randomUUID().toString()
+
+                    if (itemId.equals("0")){
                         discountDetailsFragmentViewModel.callRewardCouponApi(
-                            "0",intent.getStringExtra("country_code").toString(),intent.getStringExtra("amount").toString().toDouble(),
-                            invoice_no
+                            "0",preferenceManager.getUserCountryCode(),preferenceManager.getUserAmount().toDouble(),
+                            invoice_no,this
                         )
                     }else {
-                        discountDetailsFragmentViewModel.callRedeemCouponApi(
-                            carttotal, grandtotal, coupon_id, username, coupon_name, invoice_no
-                        )
+                        if(preferenceManager.getOtpRequested()){
+                            sendOtpViewModel.callSendOtpApi(country_code,phone_no,this)
+                        }else{
+                            discountDetailsFragmentViewModel.callRewardCouponApi(
+                                itemId,country_code,tamount.toDouble(),
+                                invoice_no,this)
+
+                        }
                     }
                 }
                 R.id.backArrow->{
-                    finish()
+                    preferenceManager.clearSharedPreferences()
+                   startActivity(Intent(this,AmountEntryActivity::class.java))
                 }
                 else -> {}
             }
@@ -102,11 +131,18 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
     }
 
     override fun onItemClick(item: CouponsListImeiResponse.CouponListData) {
-        invoice_no= UUID.randomUUID().toString()
+
+        itemId=item.id
+
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+   /*     invoice_no= UUID.randomUUID().toString()
         discountDetailsFragmentViewModel.callRewardCouponApi(
-            item.id,intent.getStringExtra("country_code").toString(),intent.getStringExtra("amount").toString().toDouble(),
+            item.id,country_code,tamount.toDouble(),
             invoice_no
-        )
+        )*/
     }
 
     override fun setAdapterValues(data: List<CouponsListImeiResponse.CouponListData>) {
@@ -117,7 +153,8 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
             if (couponsList.isNotEmpty()) {
                 viewDataBinding.couponList.visibility = View.VISIBLE
                 couponListAdapter?.setItems(couponsList)
-
+            }else{
+                Toast.makeText(this@CouponActivity,"No Coupon Available",Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -147,6 +184,11 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
             viewDataBinding.view.visibility=VISIBLE
             viewDataBinding.totalDiscount.visibility=VISIBLE
             viewDataBinding.grandTotal.text=grandTotal.toString()+"JOD"
+
+
+            discountDetailsFragmentViewModel.callRedeemCouponApi(
+                carttotal, grandtotal, coupon_id, username, coupon_name, invoice_no,this
+            )
         }
     }
 
@@ -172,8 +214,29 @@ class CouponActivity : BaseActivity<ActivitySelectCouponBinding>(ActivitySelectC
         viewDataBinding.progressBar.visibility=visibility
     }
 
+    override fun moveToLoginScreen(message: String) {
+        if(message.equals("OTP sent successfully")){
+            startActivity(Intent(this,EnterOtpActivity::class.java).putExtra("itemid",itemId))
+        }else if(message.equals("Invalid mobile number")){
+            deleteUserViewModel.deleteUserApi(preferenceManager.getUserId().toString(),this)
+        }
+
+    }
+
+    override fun movetoHome(message: String) {
+        startActivity(Intent(this,AmountEntryActivity::class.java))
+
+    }
+
     override fun prepareAlert(title: Int, messageResourceId: Int, message: String) {
-        Toast.makeText(this@CouponActivity,message,Toast.LENGTH_LONG).show()
+        super<DiscountDetailsNavigator>.prepareAlert(title, messageResourceId, message)
+        super<ForgotPasswordNavigator>.prepareAlert(title, messageResourceId, message)
+        super<CouponListNavigator>.prepareAlert(title, messageResourceId, message)
+        if(message.equals("Device not registered")){
+            preferenceManager.clearSharedPreferences()
+            startActivity(Intent(this,AmountEntryActivity::class.java))
+        }
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
 
     }
 }

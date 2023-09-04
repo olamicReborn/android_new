@@ -1,11 +1,14 @@
 package com.maggnet.ui.register.fragment.verification
 
 import android.app.Activity
+import android.content.Context
 import android.os.CountDownTimer
 import android.text.TextUtils
 import android.view.View
 import com.google.firebase.auth.PhoneAuthProvider
 import com.maggnet.R
+import com.maggnet.data.register.login.model.SendOtpRequest
+import com.maggnet.data.register.login.usecase.SendOtpUseCase
 import com.maggnet.data.register.otp.model.CheckRegisteredUserRequest
 import com.maggnet.data.register.otp.model.CheckRegisteredUserResponse
 import com.maggnet.data.register.otp.usecase.CheckRegisteredUserUseCase
@@ -14,6 +17,7 @@ import com.maggnet.domain.rxcallback.OptimizedCallbackWrapper
 import com.maggnet.ui.base.BaseViewModel
 import com.maggnet.ui.extensions.safeGet
 import com.maggnet.utils.ApiErrorMessages
+import com.maggnet.utils.AppStatus
 import com.maggnet.utils.PreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -31,19 +35,27 @@ class OtpVerificationViewModel @Inject constructor(
 
 
     //region OTP VERIFICATION API
-    fun callCheckRegisteredUserApi(phoneNumberWithCountryCode: String,countrycode:String) {
-        getNavigator()?.setProgressVisibility(View.VISIBLE)
-        addDisposable(
-            checkRegisteredUserUseCase.execute(
-                CheckRegisteredUserSubscriber(),
-                CheckRegisteredUserUseCase.Params.create(
-                    CheckRegisteredUserRequest(
-                        phoneNumber = phoneNumberWithCountryCode,
-                        country_code = countrycode
+    fun callCheckRegisteredUserApi(phoneNumberWithCountryCode: String,countrycode:String,context: Context) {
+        if(AppStatus.getInstance(context).isOnline) {
+            getNavigator()?.setProgressVisibility(View.VISIBLE)
+            addDisposable(
+                checkRegisteredUserUseCase.execute(
+                    CheckRegisteredUserSubscriber(),
+                    CheckRegisteredUserUseCase.Params.create(
+                        CheckRegisteredUserRequest(
+                            phoneNumber = phoneNumberWithCountryCode,
+                            country_code = countrycode
+                        )
                     )
                 )
             )
-        )
+        }else{
+            getNavigator()?.prepareAlert(
+                title = R.string.app_error,
+                message = "No Internet available"
+            )
+        }
+
     }
 
     inner class CheckRegisteredUserSubscriber :

@@ -1,5 +1,6 @@
 package com.maggnet.ui.redeem.discount
 
+import android.content.Context
 import android.view.View
 import com.google.gson.JsonObject
 import com.maggnet.R
@@ -8,11 +9,14 @@ import com.maggnet.data.redeem.model.RewardCouponResponse
 import com.maggnet.data.redeem.usecase.CouponValidityUseCase
 import com.maggnet.data.redeem.usecase.RedeemCouponUseCase
 import com.maggnet.data.redeem.usecase.RewardCouponUseCase
+import com.maggnet.data.register.login.model.SendOtpRequest
+import com.maggnet.data.register.login.usecase.SendOtpUseCase
 import com.maggnet.domain.remote.BaseError
 import com.maggnet.domain.remote.BaseResponse
 import com.maggnet.domain.rxcallback.OptimizedCallbackWrapper
 import com.maggnet.ui.base.BaseViewModel
 import com.maggnet.utils.ApiErrorMessages
+import com.maggnet.utils.AppStatus
 import com.maggnet.utils.PreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -79,34 +83,42 @@ class DiscountDetailsFragmentViewModel @Inject constructor(
         }
     }
 
-    fun callRewardCouponApi(rewardCode: String,countryCode: String,amount: Double,invoiceNumber: String) {
-        getNavigator()?.setProgressVisibility(View.VISIBLE)
+    fun callRewardCouponApi(rewardCode: String,countryCode: String,amount: Double,invoiceNumber: String,context:Context) {
+        if(AppStatus.getInstance(context).isOnline) {
+            getNavigator()?.setProgressVisibility(View.VISIBLE)
 
-        var json = JsonObject()
+            var json = JsonObject()
             json.addProperty("customer_mobile_number", preferenceManager.getMobileNumberForRegistration())
             json.addProperty("mobile_country_code", countryCode)
             json.addProperty("reward_code", rewardCode)
-            json.addProperty("device_imei", "864445040446587")
+            json.addProperty("device_imei", preferenceManager.getIMEINumber().toString())
             json.addProperty("amount", amount)
             json.addProperty("invoice_no",invoiceNumber)
             var additionalJson = JsonObject()
             additionalJson.addProperty(
                 "user_id",
-               preferenceManager.getUserId()
+                preferenceManager.getUserId()
             )
             json.add("additional_data", additionalJson)
 
-        addDisposable(
-            rewardCouponUseCase.execute(
-                CouponRewardSubscriber(invoiceNumber),
-                RewardCouponUseCase.Params.create(
-                    RequestBody.create(
-                        "application/json; charset=utf-8".toMediaTypeOrNull(),
-                        json.toString()
+            addDisposable(
+                rewardCouponUseCase.execute(
+                    CouponRewardSubscriber(invoiceNumber),
+                    RewardCouponUseCase.Params.create(
+                        RequestBody.create(
+                            "application/json; charset=utf-8".toMediaTypeOrNull(),
+                            json.toString()
+                        )
                     )
                 )
             )
-        )
+        }else{
+            getNavigator()?.prepareAlert(
+                title = R.string.app_error,
+                message = "No Internet available"
+            )
+        }
+
     }
 
     inner class CouponRewardSubscriber(var invoiceNumber: String) :
@@ -163,29 +175,37 @@ class DiscountDetailsFragmentViewModel @Inject constructor(
         couponId: String,
         userName: String,
         couponName: String,
-        invoiceNumber: String
+        invoiceNumber: String,context: Context
     ) {
-        getNavigator()?.setProgressVisibility(View.VISIBLE)
+        if(AppStatus.getInstance(context).isOnline) {
+            getNavigator()?.setProgressVisibility(View.VISIBLE)
 
-        var json = JsonObject()
-        json.addProperty("user_id", preferenceManager.getUserId())
-        json.addProperty("coupon_id", couponId)
-        json.addProperty("cart_total", cartTotal)
-        json.addProperty("grand_total", grandTotal)
-        json.addProperty("device_imei","864445040446587")
-        json.addProperty("invoice_no", invoiceNumber)
-        json.addProperty("coupon_name", couponName)
-        addDisposable(
-            redeemCouponUseCase.execute(
-                CouponRedeemSubscriber(cartTotal, grandTotal, userName),
-                RedeemCouponUseCase.Params.create(
-                    RequestBody.create(
-                        "application/json; charset=utf-8".toMediaTypeOrNull(),
-                        json.toString()
+            var json = JsonObject()
+            json.addProperty("user_id", preferenceManager.getUserId())
+            json.addProperty("coupon_id", couponId)
+            json.addProperty("cart_total", cartTotal)
+            json.addProperty("grand_total", grandTotal)
+            json.addProperty("device_imei",preferenceManager.getIMEINumber().toString())
+            json.addProperty("invoice_no", invoiceNumber)
+            json.addProperty("coupon_name", couponName)
+            addDisposable(
+                redeemCouponUseCase.execute(
+                    CouponRedeemSubscriber(cartTotal, grandTotal, userName),
+                    RedeemCouponUseCase.Params.create(
+                        RequestBody.create(
+                            "application/json; charset=utf-8".toMediaTypeOrNull(),
+                            json.toString()
+                        )
                     )
                 )
             )
-        )
+        }else{
+            getNavigator()?.prepareAlert(
+                title = R.string.app_error,
+                message = "No Internet available"
+            )
+        }
+
     }
 
     inner class CouponRedeemSubscriber(

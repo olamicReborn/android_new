@@ -9,7 +9,67 @@
       "client_info": {
         "mobilesdk_app_id": "1:137058529770:android:1441fb2678896931114293",
         "android_client_info": {
-          "package_name": "com.maggnet.deviceapp"
+          "package_name": "com.maggnet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137058529770-5o0fetkrorjcl59r8o7h9o97sbkgoh2t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maggnet",
+            "certificate_hash": "c213ac345f1a3b43b38429eac5e1806e1a42e109"
+          }
+        },
+        {
+          "client_id": "137058529770-egtic387hq4q70kbi7auoucpcavnibbm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maggnet",
+            "certificate_hash": "79da389cc261d9ba16ea5cf75edb75c15e1ff0f8"
+          }
+        },
+        {
+          "client_id": "137058529770-gf9mablqed80odda6im7d9kquomloqo8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maggnet",
+            "certificate_hash": "c6f1f4f283005e9593db75abf54c650bff356181"
+          }
+        },
+        {
+          "client_id": "137058529770-368kfd7rk4tsfdbjq64i3hasde0s2qve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuA12zSBrwITQ74adqI0B6jNcHNLz_cdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137058529770-368kfd7rk4tsfdbjq64i3hasde0s2qve.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "137058529770-k9jkhjmpt9apl10a1702g6rr9q5l53on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.maggnet-App"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137058529770:android:d15b177c88745429114293",
+        "android_client_info": {
+          "package_name": "com.maggnet.redeem"
         }
       },
       "oauth_client": [
@@ -29,6 +89,13 @@
             {
               "client_id": "137058529770-368kfd7rk4tsfdbjq64i3hasde0s2qve.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "137058529770-k9jkhjmpt9apl10a1702g6rr9q5l53on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.maggnet-App"
+              }
             }
           ]
         }

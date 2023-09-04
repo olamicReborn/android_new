@@ -1,16 +1,20 @@
 package com.maggnet.ui.welcome.activity.coupon
 
 
+import android.content.Context
 import android.view.View
 import com.maggnet.R
 import com.maggnet.data.coupons.model.*
 import com.maggnet.data.coupons.usecase.*
+import com.maggnet.data.register.login.model.SendOtpRequest
+import com.maggnet.data.register.login.usecase.SendOtpUseCase
 import com.maggnet.domain.remote.BaseError
 import com.maggnet.domain.remote.BaseResponse
 import com.maggnet.domain.rxcallback.OptimizedCallbackWrapper
 import com.maggnet.ui.base.BaseViewModel
 import com.maggnet.ui.extensions.empty
 import com.maggnet.utils.ApiErrorMessages
+import com.maggnet.utils.AppStatus
 import com.maggnet.utils.PreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -25,20 +29,28 @@ class CouponViewModel @Inject constructor(
     lateinit var preferenceManager: PreferenceManager
 
     fun callCouponListApi(
-        imei: String,userid:String
+        imei: String,userid:String,context: Context
     ) {
-        getNavigator()?.setProgressVisibility(View.VISIBLE)
-        addDisposable(
-            couponListUseCase.execute(
-                CouponListSubscriber(),
-                CouponListUseCase.Params.create(
-                    CouponsListImeiRequest(
-                        imei =imei,
-                        userid = userid
+        if(AppStatus.getInstance(context).isOnline) {
+            getNavigator()?.setProgressVisibility(View.VISIBLE)
+            addDisposable(
+                couponListUseCase.execute(
+                    CouponListSubscriber(),
+                    CouponListUseCase.Params.create(
+                        CouponsListImeiRequest(
+                            imei =imei,
+                            userid = userid
+                        )
                     )
                 )
             )
-        )
+        }else{
+            getNavigator()?.prepareAlert(
+                title = R.string.app_error,
+                message = "No Internet available"
+            )
+        }
+
     }
 
 

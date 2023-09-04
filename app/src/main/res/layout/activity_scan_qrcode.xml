@@ -15,6 +15,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/backArrow"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/back"
+                android:layout_marginTop="@dimen/dimen_20_dp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgLogo"
@@ -22,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_device_logo"
                 android:tint="@color/blue"
-                android:layout_marginTop="@dimen/dimen_30_dp"
+                android:layout_marginTop="@dimen/dimen_20_dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +42,7 @@
                 android:id="@+id/welcome_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:padding="@dimen/_3sdp"
                 android:text="@string/welcome_to_megnatis_qr"
                 android:textColor="@color/black"
@@ -49,7 +59,6 @@
                 android:id="@+id/welcome_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:padding="@dimen/_3sdp"
                 android:text="Second Step: Scan QR Code"
                 android:textColor="@color/black"
@@ -67,7 +76,6 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:id="@+id/layout_amount"
-                android:layout_marginTop="@dimen/_20sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/welcome_amount"
                 app:layout_constraintVertical_chainStyle="packed" >
@@ -86,7 +94,7 @@
                   />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/Amount"
+                    android:id="@+id/amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_5sdp"
@@ -100,30 +108,48 @@
 
             </LinearLayout>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_3sdp"
+                android:text="Timer 0:00"
+                android:textColor="#00DF74"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_gravity="left"
+                android:id="@+id/code"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:visibility="visible"
+                app:fontFamily="@font/readexpro_bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_amount"
+                app:layout_constraintVertical_chainStyle="packed" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_margin="@dimen/_20sdp"
                 android:gravity="center"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
                 android:id="@+id/btnNext"
+                android:layout_marginTop="@dimen/_2sdp"
                 android:background="@drawable/bg_line"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_amount"
+                app:layout_constraintTop_toBottomOf="@+id/code"
                 app:layout_constraintVertical_chainStyle="packed">
 
 
                 <ImageView
-                    android:layout_width="@dimen/dimen_200_dp"
-                    android:layout_height="@dimen/dimen_200_dp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:src="@drawable/qr"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_200sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:src="@drawable/ic_reset_qrcode"
+                    android:id="@+id/image_qr"
                     android:layout_gravity="center"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/qrCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:padding="@dimen/_3sdp"
                     android:text="Your QR code"
@@ -138,9 +164,84 @@
 
             </LinearLayout>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_1sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnNext"
+                app:layout_constraintVertical_chainStyle="packed">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scan_qr"
+                    android:padding="@dimen/_2sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:src="@drawable/ic_qrcode"
+                   />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/scan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Scan QR code"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_size_normal"
+                            app:fontFamily="@font/readexpro_bold"
+                            />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/_3sdp"
+                            android:text="@string/you_can_scan_the_code_inside_the_store_and_get_points"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sp"
+                            app:fontFamily="@font/readexpro_light"
+                          />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

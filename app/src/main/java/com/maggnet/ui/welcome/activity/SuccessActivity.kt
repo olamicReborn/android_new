@@ -52,6 +52,7 @@ class SuccessActivity : BaseActivity<ActivitySuccessScreenBinding>(ActivitySucce
         v?.let {
             when (it.id) {
                 R.id.btnNext ->{
+                    preferenceManager.clearSharedPreferences()
                     startActivity(Intent(this,AmountEntryActivity::class.java))
 
                 }

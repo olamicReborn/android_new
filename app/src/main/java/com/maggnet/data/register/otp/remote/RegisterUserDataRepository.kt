@@ -14,4 +14,5 @@ class RegisterUserDataRepository @Inject constructor(
     override fun registerUser(registerUserRequest: RegisterUserRequest): Single<RegisterUserResponse> {
         return registerApiServices.registerUser(registerUserRequest)
     }
+
 }

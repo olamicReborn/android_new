@@ -20,13 +20,14 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvPayNow"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mc Free 200 JOD OFF"
                 android:layout_marginStart="10dp"
                 android:textStyle="bold"
+                android:layout_toLeftOf="@+id/image_checked"
                 android:textSize="@dimen/text_size_normal"
-                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:textColor="@color/blue"
                 />
 

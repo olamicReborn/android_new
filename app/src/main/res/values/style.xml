@@ -185,6 +185,14 @@
         <item name="android:windowBackground">@drawable/magnatis_background</item>
         <item name="android:navigationBarColor">@color/blue</item>
     </style>
+    <style name="Theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/dark_grey</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:navigationBarColor">@color/blue</item>
+    </style>
 
 
 

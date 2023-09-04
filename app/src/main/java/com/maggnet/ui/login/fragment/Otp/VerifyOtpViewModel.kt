@@ -1,5 +1,6 @@
 package com.maggnet.ui.login.fragment.Otp
 
+import android.content.Context
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.maggnet.R
@@ -13,6 +14,7 @@ import com.maggnet.domain.rxcallback.OptimizedCallbackWrapper
 import com.maggnet.ui.base.BaseViewModel
 import com.maggnet.ui.login.fragment.forgot.ForgotPasswordNavigator
 import com.maggnet.utils.ApiErrorMessages
+import com.maggnet.utils.AppStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -29,20 +31,28 @@ class VerifyOtpViewModel @Inject constructor(
     val otpChar6 = MutableLiveData<String?>()
 
 
-    fun callVerifyOtpApi(countryCode: String,phoneNumber: String,otp:String) {
-        getNavigator()?.setProgressVisibility(View.VISIBLE)
-        addDisposable(
-            verifyOtpUseCase.execute(
-                SendOtpSubscriber(),
-                VerifyOtpUseCase.Params.create(
-                    VerifyOtpRequest(
-                        country_code = countryCode,
-                        phone_number = phoneNumber,
-                        otp = otp
+    fun callVerifyOtpApi(countryCode: String,phoneNumber: String,otp:String,context:Context) {
+        if(AppStatus.getInstance(context).isOnline) {
+            getNavigator()?.setProgressVisibility(View.VISIBLE)
+            addDisposable(
+                verifyOtpUseCase.execute(
+                    SendOtpSubscriber(),
+                    VerifyOtpUseCase.Params.create(
+                        VerifyOtpRequest(
+                            country_code = countryCode,
+                            phone_number = phoneNumber,
+                            otp = otp
+                        )
                     )
                 )
             )
-        )
+        }else{
+            getNavigator()?.prepareAlert(
+                title = R.string.app_error,
+                message = "No Internet available"
+            )
+        }
+
     }
 
 

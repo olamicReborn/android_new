@@ -38,6 +38,24 @@ class PreferenceManager constructor(val context: Context) {
         private const val IS_CHANGE_LANGUAGE = "is_change_language"
         private const val IS_MUTE_NOTIFICATION = "is_mute_notification"
         private const val IMEI_NUMBER = "imei_number"
+        private const val AMOUNT = "amount"
+        private const val COUNTRY_CODE = "country_code"
+    }
+
+    fun getUserAmount():String{
+        return getStringPolicy(AMOUNT).safeGet()
+    }
+
+    fun setUserAmount(amount:String){
+        setStringPolicy(AMOUNT,amount)
+    }
+
+    fun getUserCountryCode():String{
+        return getStringPolicy(COUNTRY_CODE).safeGet()
+    }
+
+    fun setUserCountryCode(countrycode:String){
+        setStringPolicy(COUNTRY_CODE,countrycode)
     }
 
     // For language change

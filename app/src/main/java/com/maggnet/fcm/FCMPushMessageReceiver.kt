@@ -5,20 +5,24 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.media.RingtoneManager
 import android.os.Build
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.maggnet.MaggnetApplication
 import com.maggnet.R
 import com.maggnet.ui.welcome.activity.AmountEntryActivity
+import com.maggnet.ui.welcome.activity.CouponActivity
 import com.maggnet.utils.AppLogger
 import com.maggnet.utils.PreferenceManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 
 
@@ -41,10 +45,30 @@ class FCMPushMessageReceiver : FirebaseMessagingService() {
         val data: Map<String, String> = remoteMessage.data
         AppLogger.d(TAG, "FCM DATA => $data")
         if (data == null || data.isEmpty()) {
+            MainScope().launch {
+                Toast.makeText(this@FCMPushMessageReceiver, "No push received", Toast.LENGTH_LONG).show()
+            }
             return
+
+        } else {
+            MainScope().launch {
+                Toast.makeText(this@FCMPushMessageReceiver, data.toString(), Toast.LENGTH_LONG).show()
+            }
+            val jsonObject = JSONObject(data)
+            preferenceManager.setUserId(jsonObject.getString("user_id"))
+            preferenceManager.setUserCountryCode(jsonObject.getString("country_code"))
+            preferenceManager.setMobileNumberForRegistration(jsonObject.getString("phone_number"))
+            preferenceManager.setOtpRequested(false)
+
+            val openActivityIntent = Intent(
+                this,
+                CouponActivity::class.java
+            )
+            this.startActivity(openActivityIntent)
+
         }
 //        if (data.isNotEmpty()) {
-//            showNotification(this, data["title"], "")
+//            showNotification(this, data["title"], "")  {user_id=2166}
 //        }
     }
 

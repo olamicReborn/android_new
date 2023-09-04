@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
 import android.view.View.GONE
@@ -13,43 +12,47 @@ import androidx.activity.viewModels
 import com.maggnet.R
 import com.maggnet.databinding.ActivityEnterOtpBinding
 import com.maggnet.ui.base.BaseActivity
+import com.maggnet.ui.login.fragment.Otp.DeleteUserViewModel
 import com.maggnet.ui.login.fragment.Otp.SendOtpViewModel
 import com.maggnet.ui.login.fragment.Otp.VerifyOtpViewModel
 import com.maggnet.ui.login.fragment.forgot.ForgotPasswordNavigator
+import com.maggnet.ui.redeem.discount.DiscountDetailsFragmentViewModel
+import com.maggnet.ui.redeem.discount.DiscountDetailsNavigator
 import com.maggnet.ui.register.fragment.verification.OtpVerificationNavigator
 import com.maggnet.ui.register.fragment.verification.OtpVerificationViewModel
-import com.maggnet.utils.AppLanguageUtils
+import com.maggnet.ui.welcome.activity.coupon.CouponListNavigator
 import com.maggnet.utils.PreferenceManager
-import com.maggnet.utils.showShortToast
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class EnterOtpActivity : BaseActivity<ActivityEnterOtpBinding>(ActivityEnterOtpBinding::inflate),
     View.OnClickListener,
-    ForgotPasswordNavigator, OtpVerificationNavigator {
+    ForgotPasswordNavigator, OtpVerificationNavigator, DiscountDetailsNavigator {
 
     @Inject
     lateinit var preferenceManager: PreferenceManager
     private val verifyOtpViewModel:VerifyOtpViewModel by viewModels()
     private val sendOtpViewModel: SendOtpViewModel by viewModels()
-    private val otpVerificationFragmentViewModel: OtpVerificationViewModel by viewModels()
+    val discountDetailsFragmentViewModel: DiscountDetailsFragmentViewModel by viewModels()
 
-    var click =0
+    var invoice_no =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         verifyOtpViewModel.setNavigator(this@EnterOtpActivity)
-        otpVerificationFragmentViewModel.setNavigator(this)
         sendOtpViewModel.setNavigator(this@EnterOtpActivity)
+        discountDetailsFragmentViewModel.setNavigator(this)
+
         setOTPWaitingCounter()
         setEventListeners()
     }
 
     override fun initUserInterface() {
         viewDataBinding.apply {
-            mobileNumber.text=intent.getStringExtra("phone_no").toString()
+            mobileNumber.text="+"+preferenceManager.getUserCountryCode()+preferenceManager.getMobileNumberForRegistration()
             btnConfirm.setOnClickListener(this@EnterOtpActivity)
             resendcode.setOnClickListener(this@EnterOtpActivity)
             backArrow.setOnClickListener(this@EnterOtpActivity)
@@ -206,13 +209,17 @@ class EnterOtpActivity : BaseActivity<ActivityEnterOtpBinding>(ActivityEnterOtpB
                     viewDataBinding.edtOtpChar6.text.toString()
 
                     if(validateStringArray(_otpCharsArray)){
-                        verifyOtpViewModel.callVerifyOtpApi(intent.getStringExtra("country_code").toString(),intent.getStringExtra("phone_no").toString(),otp)
+                        verifyOtpViewModel.callVerifyOtpApi(preferenceManager.getUserCountryCode(),preferenceManager.getMobileNumberForRegistration(),otp,this)
                     }else{
                         Toast.makeText(this,"Enter valid OTP",Toast.LENGTH_LONG).show()
                     }
                 }
                 R.id.resendcode->{
-                    sendOtpViewModel.callSendOtpApi(intent.getStringExtra("country_code").toString(),intent.getStringExtra("phone_no").toString())
+                    sendOtpViewModel.callSendOtpApi(
+                        preferenceManager.getUserCountryCode(),
+                        preferenceManager.getMobileNumberForRegistration(),
+                        this
+                    )
                 }
                 R.id.backArrow->{
                     finish()
@@ -233,13 +240,27 @@ class EnterOtpActivity : BaseActivity<ActivityEnterOtpBinding>(ActivityEnterOtpB
 
     override fun moveToLoginScreen(message: String) {
         if(message.equals("Verified")){
-            otpVerificationFragmentViewModel.callCheckRegisteredUserApi(
-                intent.getStringExtra("phone_no").toString(), intent.getStringExtra("country_code").toString()
-            )
+           invoice_no= UUID.randomUUID().toString()
+
+            if ( intent.getStringExtra("itemid").equals("0")){
+                discountDetailsFragmentViewModel.callRewardCouponApi(
+                    "0",preferenceManager.getUserCountryCode(),preferenceManager.getUserAmount().toDouble(),
+                    invoice_no,this
+                )
+            }else {
+                discountDetailsFragmentViewModel.callRewardCouponApi(
+                    intent.getStringExtra("itemid").toString(),preferenceManager.getUserCountryCode(),preferenceManager.getUserAmount().toDouble(),invoice_no,this
+                )
+            }
+
+
         }else if(message.equals("OTP sent successfully")){
             setOTPWaitingCounter()
         }
 
+    }
+
+    override fun movetoHome(message: String) {
     }
 
     override fun updateWrongOtpStatus() {
@@ -260,9 +281,51 @@ class EnterOtpActivity : BaseActivity<ActivityEnterOtpBinding>(ActivityEnterOtpB
         viewDataBinding.progressBar.visibility=visibility
     }
 
+    override fun couponRedeem(
+        grandTotal: Double,
+        cartTotal: Double,
+        userId: String,
+        couponId: String,
+        userName: String,
+        message: String,
+        couponName: String,
+        invoiceNumber: String
+    ) {
+        if(message.equals("Invalid Coupon")){
+            Toast.makeText(this,message,Toast.LENGTH_LONG).show()
+        }else{
+
+            discountDetailsFragmentViewModel.callRedeemCouponApi(
+                cartTotal, grandTotal, couponId, userName, couponName, invoice_no,this
+            )
+        }
+    }
+
+    override fun moveToInvoiceDetails(
+        cartTotal: Double,
+        grandTotal: Double,
+        invoiceNumber: String,
+        couponName: String,
+        userName: String,
+        message: String,
+        couponId: String
+    ) {
+        startActivity(Intent(this,SuccessActivity::class.java)
+            .putExtra("userName",userName)
+            .putExtra("grandTotal",grandTotal.toString())
+            .putExtra("cartTotal",cartTotal.toString()))
+    }
+
+    override fun invalidCoupon(message: String) {
+
+    }
 
     override fun prepareAlert(title: Int, messageResourceId: Int, message: String) {
-        Toast.makeText(this@EnterOtpActivity,message,Toast.LENGTH_LONG).show()
+        super<DiscountDetailsNavigator>.prepareAlert(title, messageResourceId, message)
+        super<ForgotPasswordNavigator>.prepareAlert(title, messageResourceId, message)
+        super<OtpVerificationNavigator>.prepareAlert(title, messageResourceId, message)
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
+
     }
 
     override fun onRestart() {

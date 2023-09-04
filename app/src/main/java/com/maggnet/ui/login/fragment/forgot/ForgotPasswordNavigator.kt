@@ -5,4 +5,5 @@ import com.maggnet.ui.base.BaseNavigator
 interface ForgotPasswordNavigator : BaseNavigator {
 
     fun moveToLoginScreen(message : String)
+    fun movetoHome(message : String)
 }

@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
     <application
@@ -46,6 +47,7 @@
         <activity android:name=".ui.welcome.activity.SuccessActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.fragment.qrcode.scan.QRCodeScannerActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

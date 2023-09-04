@@ -7,7 +7,9 @@ import com.maggnet.data.languagechange.usecase.AppLanguageChangeUseCase
 import com.maggnet.data.notifications.remote.NotificationListRepository
 import com.maggnet.data.notifications.usecase.DeleteNotificationUseCase
 import com.maggnet.data.notifications.usecase.NotificationUseCase
+import com.maggnet.data.qrcode.remote.QRCodeByImeiRepository
 import com.maggnet.data.qrcode.remote.QRCodeRepository
+import com.maggnet.data.qrcode.usecase.GetQRCodeUseCase
 import com.maggnet.data.qrcode.usecase.ResetQRCodeUseCase
 import com.maggnet.data.redeem.remote.CouponValidityRepository
 import com.maggnet.data.redeem.remote.RedeemRepository
@@ -30,8 +32,10 @@ import com.maggnet.data.register.login.usecase.LoginUseCase
 import com.maggnet.data.register.login.usecase.SendOtpUseCase
 import com.maggnet.data.register.login.usecase.VerifyOtpUseCase
 import com.maggnet.data.register.otp.remote.CheckRegisteredUserRepository
+import com.maggnet.data.register.otp.remote.DeleteUserRepository
 import com.maggnet.data.register.otp.remote.RegisterUserRepository
 import com.maggnet.data.register.otp.usecase.CheckRegisteredUserUseCase
+import com.maggnet.data.register.otp.usecase.DeleteUserUseCase
 import com.maggnet.data.register.otp.usecase.RegisterUserUseCase
 import com.maggnet.data.settings.remote.*
 import com.maggnet.data.settings.usecase.*
@@ -56,6 +60,16 @@ object UseCaseModule {
         postExecutionThread: PostExecutionThread
     ) = CheckRegisteredUserUseCase(
         checkRegisteredUserRepository,
+        postExecutionThread = postExecutionThread
+    )
+
+     @Provides
+    @Singleton
+    fun providedeleteRegisteredUseCase(
+        deleteUserRepository: DeleteUserRepository,
+        postExecutionThread: PostExecutionThread
+    ) = DeleteUserUseCase(
+        deleteUserRepository,
         postExecutionThread = postExecutionThread
     )
 
@@ -199,6 +213,16 @@ object UseCaseModule {
         postExecutionThread: PostExecutionThread
     ) = ResetQRCodeUseCase(
         qrCodeRepository,
+        postExecutionThread = postExecutionThread
+    )
+
+    @Provides
+    @Singleton
+    fun provideQRCodeUseCase(
+        qrCodeByImeiRepository: QRCodeByImeiRepository,
+        postExecutionThread: PostExecutionThread
+    ) = GetQRCodeUseCase(
+        qrCodeByImeiRepository,
         postExecutionThread = postExecutionThread
     )
 

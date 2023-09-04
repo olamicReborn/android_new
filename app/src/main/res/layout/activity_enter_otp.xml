@@ -21,7 +21,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/back"
-                android:layout_marginTop="@dimen/dimen_30_dp"
+                android:layout_marginTop="@dimen/dimen_20_dp"
                 android:layout_marginLeft="@dimen/_20sdp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_device_logo"
                 android:tint="@color/blue"
-                android:layout_marginTop="@dimen/dimen_30_dp"
+                android:layout_marginTop="@dimen/dimen_20_dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

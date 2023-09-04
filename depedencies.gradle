@@ -6,7 +6,7 @@ ext.app = [
         versionName: '4.1'
 ]
 ext.packageId = [
-        maggnet: 'com.maggnet.deviceapp',
+        maggnet: 'com.maggnet.redeem',
 ]
 
 ext.java = [
@@ -91,7 +91,8 @@ def libraries = [
 
         //region Glide
         glide                 : "com.github.bumptech.glide:glide:4.11.0",
-        zxing                  : "com.google.zxing:core:3.3.3",
+        zxing                  : "com.google.zxing:core:3.3.2",
+        zxingembedded          : "com.journeyapps:zxing-android-embedded:3.6.0@aar",
         edmodo                 : "com.theartofdev.edmodo:android-image-cropper:2.8.0",
 
 ]
@@ -143,6 +144,7 @@ ext.appDepedencies = [
         addDependency("implementation", libraries.glide),
         addDependency("implementation", libraries.firebaseCrashlytics),
         addDependency("implementation", libraries.zxing),
+        addDependency("implementation", libraries.zxingembedded),
         addDependency("implementation", libraries.dexterPermission),
         addDependency("implementation", libraries.multiDexLib),
         addDependency("implementation", libraries.shimmer),
