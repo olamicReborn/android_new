@@ -109,7 +109,7 @@
                     android:focusable="true"
                     android:fontFamily="@font/readexpro_regular"
                     android:hint="@string/enter_amount"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:maxLength="12"
                     android:layout_marginRight="@dimen/_50sdp"
                     android:paddingStart="@dimen/_10sdp"
